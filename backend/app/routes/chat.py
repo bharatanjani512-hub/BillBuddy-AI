@@ -1,0 +1,35 @@
+from fastapi import APIRouter, Depends
+
+from app.dependencies.auth import get_current_user
+from app.schemas.chat_schema import (
+    ChatRequest,
+    ChatResponse,
+)
+from app.services.chat_service import (
+    generate_chat_response,
+)
+
+router = APIRouter()
+
+
+@router.post(
+    "/",
+    response_model=ChatResponse,
+    summary="Ask BillBuddy AI"
+)
+def chat_with_ai(
+    request: ChatRequest,
+    current_user: dict = Depends(get_current_user),
+):
+    """
+    AI-powered financial chat endpoint.
+    """
+
+    response = generate_chat_response(
+        question=request.question,
+        user_email=current_user["sub"],
+    )
+
+    return ChatResponse(
+        answer=response["answer"]
+    )

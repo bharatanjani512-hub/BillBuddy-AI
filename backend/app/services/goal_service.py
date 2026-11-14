@@ -120,3 +120,20 @@ def delete_goal_service(
     return success_response(
         message="Goal Deleted Successfully"
     )
+
+def get_raw_goals(user_email: str) -> list:
+    """
+    Returns all goals for a user without an API wrapper.
+    """
+
+    goals = []
+
+    cursor = goals_collection.find(
+        {"user_email": user_email}
+    )
+
+    for goal in cursor:
+        goal["_id"] = str(goal["_id"])
+        goals.append(goal)
+
+    return goals

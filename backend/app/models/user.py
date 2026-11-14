@@ -1,13 +1,13 @@
 from typing import Optional
-
 from pydantic import BaseModel, EmailStr
 
 
 class User(BaseModel):
-    full_name: str
+    full_name: Optional[str] = None
+    name: Optional[str] = None
     email: EmailStr
     password: str
-    monthly_income: float
+    monthly_income: Optional[float] = 0.0
     currency: str = "INR"
 
 

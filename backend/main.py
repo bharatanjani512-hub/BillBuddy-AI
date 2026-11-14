@@ -13,6 +13,7 @@ from app.routes.pdf_export import router as pdf_export_router
 from app.routes.insights import router as insights_router
 from app.routes.budget import router as budget_router
 from app.routes.goal import router as goal_router
+from app.routes.chat import router as chat_router
 
 app = FastAPI(
     title="BillBuddy AI",
@@ -26,9 +27,13 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "http://localhost:5173",
-        "http://localhost:5174",
-    ],
+    "http://localhost:5173",
+    "http://localhost:5174",
+    "http://localhost:5175",
+    "http://localhost:5176",
+    "http://localhost:5177",
+    "http://localhost:5178",
+],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -128,6 +133,16 @@ app.include_router(
     goal_router,
     prefix="/goals",
     tags=["Goals"]
+)
+
+# ==================================================
+# AI Chat Routes
+# ==================================================
+
+app.include_router(
+    chat_router,
+    prefix="/chat",
+    tags=["AI Chat"]
 )
 
 # ==================================================

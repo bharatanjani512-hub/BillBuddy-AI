@@ -1,8 +1,16 @@
 import os
+from pathlib import Path
+
 from dotenv import load_dotenv
 
+# ==================================================
 # Load environment variables from .env
-load_dotenv()
+# ==================================================
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+ENV_PATH = BASE_DIR / ".env"
+
+load_dotenv(dotenv_path=ENV_PATH, override=True)
 
 
 class Settings:
@@ -19,7 +27,7 @@ class Settings:
     DATABASE_NAME = os.getenv("DATABASE_NAME")
 
     # ==========================
-    # JWT
+    # JWT Authentication
     # ==========================
     SECRET_KEY = os.getenv("SECRET_KEY")
     ALGORITHM = os.getenv("ALGORITHM", "HS256")
@@ -31,6 +39,10 @@ class Settings:
     # Google Gemini
     # ==========================
     GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+    GEMINI_MODEL = os.getenv(
+        "GEMINI_MODEL",
+        "gemini-2.0-flash",
+    )
 
 
 settings = Settings()

@@ -1,179 +1,104 @@
 from fastapi import APIRouter, Depends
 
-from app.database.connection import database
 from app.dependencies.auth import get_current_user
+
+from app.database.connection import database
+
+from app.services.dashboard_service import (
+    get_dashboard_summary,
+    get_monthly_chart,
+    get_category_chart,
+    get_recent_transactions,
+)
 
 router = APIRouter()
 
 bills_collection = database["bills"]
 
 
-# ==========================
+# =====================================
 # Dashboard Summary
-# ==========================
+# =====================================
 @router.get("/summary")
-def get_summary(
+def dashboard_summary(
     current_user: dict = Depends(get_current_user)
 ):
-
-    user_email = current_user["sub"]
-
-    bills = list(
-        bills_collection.find(
-            {"user_email": user_email}
-        )
+    return get_dashboard_summary(
+        current_user["sub"]
     )
 
-    total_transactions = len(bills)
 
-    total_expense = sum(
-        bill["amount"] for bill in bills
-    )
-
-    return {
-        "total_transactions": total_transactions,
-        "total_expense": total_expense
-    }
-
-
-# ==========================
-# Monthly Expense
-# ==========================
-@router.get("/monthly")
-def monthly_expense(
-    month: str,
+# =====================================
+# Monthly Expense Chart
+# =====================================
+@router.get("/monthly-chart")
+def monthly_chart(
     current_user: dict = Depends(get_current_user)
 ):
-
-    user_email = current_user["sub"]
-
-    bills = bills_collection.find(
-        {
-            "user_email": user_email,
-            "date": {
-                "$regex": f"^{month}"
-            }
-        }
+    return get_monthly_chart(
+        current_user["sub"]
     )
 
-    total = sum(
-        bill["amount"] for bill in bills
-    )
 
-    return {
-        "month": month,
-        "monthly_expense": total
-    }
-
-
-# ==========================
-# Category Summary
-# ==========================
-@router.get("/category-summary")
-def category_summary(
+# =====================================
+# Category Expense Chart
+# =====================================
+@router.get("/category-chart")
+def category_chart(
     current_user: dict = Depends(get_current_user)
 ):
-
-    user_email = current_user["sub"]
-
-    pipeline = [
-        {
-            "$match": {
-                "user_email": user_email
-            }
-        },
-        {
-            "$group": {
-                "_id": "$category",
-                "total": {
-                    "$sum": "$amount"
-                }
-            }
-        }
-    ]
-
-    result = list(
-        bills_collection.aggregate(pipeline)
+    return get_category_chart(
+        current_user["sub"]
     )
 
-    summary = []
 
-    for item in result:
-        summary.append(
-            {
-                "category": item["_id"],
-                "total": item["total"]
-            }
-        )
-
-    return summary
-
-
-# ==========================
+# =====================================
 # Recent Transactions
-# ==========================
+# =====================================
 @router.get("/recent-transactions")
 def recent_transactions(
     current_user: dict = Depends(get_current_user)
 ):
+    return get_recent_transactions(
+        current_user["sub"]
+    )
 
-    user_email = current_user["sub"]
-
-    bills = []
-
-    cursor = bills_collection.find(
-        {
-            "user_email": user_email
-        }
-    ).sort(
-        "date",
-        -1
-    ).limit(5)
-
-    for bill in cursor:
-        bill["_id"] = str(bill["_id"])
-        bills.append(bill)
-
-    return bills
-
-# ==========================
+# =====================================
 # Search Bills
-# ==========================
+# =====================================
 @router.get("/search")
 def search_bills(
     query: str,
     current_user: dict = Depends(get_current_user)
 ):
 
-    user_email = current_user["sub"]
-
-    bills = []
-
     cursor = bills_collection.find(
         {
-            "user_email": user_email,
+            "user_email": current_user["sub"],
             "$or": [
                 {
                     "title": {
                         "$regex": query,
-                        "$options": "i"
+                        "$options": "i",
                     }
                 },
                 {
                     "merchant": {
                         "$regex": query,
-                        "$options": "i"
+                        "$options": "i",
                     }
                 },
                 {
                     "category": {
                         "$regex": query,
-                        "$options": "i"
+                        "$options": "i",
                     }
-                }
-            ]
+                },
+            ],
         }
     )
+
+    bills = []
 
     for bill in cursor:
         bill["_id"] = str(bill["_id"])
@@ -182,9 +107,9 @@ def search_bills(
     return bills
 
 
-# ==========================
-# Filter Bills By Date
-# ==========================
+# =====================================
+# Filter Bills
+# =====================================
 @router.get("/filter")
 def filter_bills(
     start_date: str,
@@ -192,19 +117,17 @@ def filter_bills(
     current_user: dict = Depends(get_current_user)
 ):
 
-    user_email = current_user["sub"]
-
-    bills = []
-
     cursor = bills_collection.find(
         {
-            "user_email": user_email,
+            "user_email": current_user["sub"],
             "date": {
                 "$gte": start_date,
-                "$lte": end_date
-            }
+                "$lte": end_date,
+            },
         }
     )
+
+    bills = []
 
     for bill in cursor:
         bill["_id"] = str(bill["_id"])
@@ -213,25 +136,23 @@ def filter_bills(
     return bills
 
 
-# ==========================
-# Filter Bills By Payment Mode
-# ==========================
+# =====================================
+# Filter Payment Mode
+# =====================================
 @router.get("/payment-mode")
 def payment_mode(
     mode: str,
     current_user: dict = Depends(get_current_user)
 ):
 
-    user_email = current_user["sub"]
-
-    bills = []
-
     cursor = bills_collection.find(
         {
-            "user_email": user_email,
-            "payment_mode": mode
+            "user_email": current_user["sub"],
+            "payment_mode": mode,
         }
     )
+
+    bills = []
 
     for bill in cursor:
         bill["_id"] = str(bill["_id"])

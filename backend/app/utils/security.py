@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 
 from fastapi.security import OAuth2PasswordBearer
-from jose import JWTError, jwt
+from jose import jwt
 from passlib.context import CryptContext
 
 from app.config import settings
@@ -11,7 +11,6 @@ pwd_context = CryptContext(
     schemes=["bcrypt"],
     deprecated="auto"
 )
-
 
 oauth2_scheme = OAuth2PasswordBearer(
     tokenUrl="/users/login"
@@ -37,7 +36,9 @@ def create_access_token(data: dict):
 
     to_encode = data.copy()
 
-    expire = datetime.utcnow() + timedelta(
+    current_time = datetime.utcnow()
+
+    expire = current_time + timedelta(
         minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES
     )
 
@@ -49,6 +50,16 @@ def create_access_token(data: dict):
         algorithm=settings.ALGORITHM
     )
 
+    print("\n" + "=" * 60)
+    print("TOKEN CREATED")
+    print("=" * 60)
+    print("Current UTC :", current_time)
+    print("Expires At  :", expire)
+    print("Expiry (mins):", settings.ACCESS_TOKEN_EXPIRE_MINUTES)
+    print("SECRET KEY  :", settings.SECRET_KEY)
+    print("ALGORITHM   :", settings.ALGORITHM)
+    print("=" * 60 + "\n")
+
     return encoded_jwt
 
 
@@ -57,17 +68,8 @@ def verify_access_token(token: str):
     try:
 
         print("\n" + "=" * 60)
-        print("🔐 VERIFYING JWT TOKEN")
+        print("VERIFYING JWT TOKEN")
         print("=" * 60)
-
-        print("Token:")
-        print(token)
-
-        print("\nSECRET_KEY:")
-        print(settings.SECRET_KEY)
-
-        print("\nALGORITHM:")
-        print(settings.ALGORITHM)
 
         payload = jwt.decode(
             token,
@@ -75,10 +77,8 @@ def verify_access_token(token: str):
             algorithms=[settings.ALGORITHM]
         )
 
-        print("\n✅ TOKEN VERIFIED SUCCESSFULLY")
-        print("Payload:")
+        print("TOKEN VERIFIED")
         print(payload)
-
         print("=" * 60 + "\n")
 
         return payload
@@ -86,15 +86,10 @@ def verify_access_token(token: str):
     except Exception as e:
 
         print("\n" + "=" * 60)
-        print("❌ JWT VERIFICATION FAILED")
+        print("JWT VERIFICATION FAILED")
         print("=" * 60)
-
-        print("Error Type:")
         print(type(e).__name__)
-
-        print("\nError Message:")
         print(str(e))
-
         print("=" * 60 + "\n")
 
         return None

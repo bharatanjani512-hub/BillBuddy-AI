@@ -39,6 +39,8 @@ def register_user(user: User):
         )
 
     user_dict = user.dict()
+    if not user_dict.get("full_name") and user_dict.get("name"):
+        user_dict["full_name"] = user_dict["name"]
 
     user_dict["password"] = hash_password(user.password)
 
@@ -99,9 +101,19 @@ def get_current_user(
             detail="Invalid or expired token."
         )
 
+    email = payload.get("sub")
+    user_record = users_collection.find_one({"email": email}) if email else None
+    name = "User"
+    if user_record:
+        name = user_record.get("full_name") or user_record.get("name") or email.split("@")[0]
+
     return {
         "message": "Token is valid",
-        "payload": payload
+        "payload": {
+            "sub": email,
+            "email": email,
+            "name": name,
+        }
     }
 
 

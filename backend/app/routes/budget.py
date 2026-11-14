@@ -1,104 +1,126 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 
-from app.schemas.budget import BudgetCreate
-from app.services.budget_service import (
-    save_budget,
-    get_budget,
-    get_current_month_expense
-)
-
+from app.models.budget import Budget
 from app.dependencies.auth import get_current_user
+from app.services.budget_service import (
+    create_budget_service,
+    get_budgets_service,
+    get_budget_statistics_service,
+    get_recent_budgets_service,
+    update_budget_service,
+    delete_budget_service,
+)
 
 router = APIRouter()
 
 
-# -------------------------
-# Set Monthly Budget
-# -------------------------
+# ============================================================
+# Create Budget Entry
+# ============================================================
+
+@router.post("/create")
 @router.post("/")
-def set_budget(
-    budget: BudgetCreate,
-    current_user: dict = Depends(get_current_user)
+def create_budget(
+    budget: Budget,
+    current_user: dict = Depends(get_current_user),
 ):
-    user_email = current_user["sub"]
-
-    save_budget(
-        user_email=user_email,
-        monthly_budget=budget.monthly_budget
+    return create_budget_service(
+        user_email=current_user["sub"],
+        budget_data=budget.dict(),
     )
 
-    return {
-        "message": "Monthly budget saved successfully."
-    }
 
-
-# -------------------------
-# View Budget
-# -------------------------
-@router.get("/")
-def view_budget(
-    current_user: dict = Depends(get_current_user)
-):
-    user_email = current_user["sub"]
-
-    budget = get_budget(user_email)
-
-    if budget is None:
-        raise HTTPException(
-            status_code=404,
-            detail="Budget not found."
-        )
-
-    return budget
-
-
-# -------------------------
+# ============================================================
 # Budget Summary
-# -------------------------
+# ============================================================
+
 @router.get("/summary")
-def budget_summary(
-    current_user: dict = Depends(get_current_user)
+def get_budget_summary(
+    current_user: dict = Depends(get_current_user),
 ):
-    user_email = current_user["sub"]
+    return get_budget_statistics_service(user_email=current_user["sub"])
 
-    budget = get_budget(user_email)
 
-    if budget is None:
-        raise HTTPException(
-            status_code=404,
-            detail="Budget not found."
-        )
+# ============================================================
+# List Budgets (paginated)
+# ============================================================
 
-    monthly_budget = budget["monthly_budget"]
-    currency = budget.get("currency", "INR")
-
-    spent_this_month = get_current_month_expense(user_email)
-
-    remaining_budget = monthly_budget - spent_this_month
-
-    usage_percentage = (
-        (spent_this_month / monthly_budget) * 100
-        if monthly_budget > 0
-        else 0
+@router.get("/")
+def list_budgets(
+    page: int = Query(1, ge=1),
+    limit: int = Query(10, ge=1, le=100),
+    category: str | None = None,
+    month: int | None = None,
+    year: int | None = None,
+    sort: str = "latest",
+    current_user: dict = Depends(get_current_user),
+):
+    return get_budgets_service(
+        user_email=current_user["sub"],
+        page=page,
+        limit=limit,
+        category=category,
+        month=month,
+        year=year,
+        sort=sort,
     )
 
-    if usage_percentage < 50:
-        status = "Excellent"
 
-    elif usage_percentage < 80:
-        status = "Safe"
+# ============================================================
+# Budget Statistics
+# ============================================================
 
-    elif usage_percentage <= 100:
-        status = "Warning"
+@router.get("/statistics")
+def budget_statistics(
+    current_user: dict = Depends(get_current_user),
+):
+    return get_budget_statistics_service(user_email=current_user["sub"])
 
-    else:
-        status = "Exceeded"
 
-    return {
-        "monthly_budget": monthly_budget,
-        "spent_this_month": spent_this_month,
-        "remaining_budget": remaining_budget,
-        "usage_percentage": round(usage_percentage, 2),
-        "status": status,
-        "currency": currency
-    }
+# ============================================================
+# Recent Budgets
+# ============================================================
+
+@router.get("/recent")
+def recent_budgets(
+    current_user: dict = Depends(get_current_user),
+):
+    return get_recent_budgets_service(user_email=current_user["sub"])
+
+
+# ============================================================
+# Update Budget
+# ============================================================
+
+@router.put("/{budget_id}")
+def update_budget(
+    budget_id: str,
+    budget: Budget,
+    current_user: dict = Depends(get_current_user),
+):
+    result = update_budget_service(
+        user_email=current_user["sub"],
+        budget_id=budget_id,
+        budget_data=budget.dict(),
+    )
+    if result is None:
+        raise HTTPException(status_code=404, detail="Budget not found.")
+    return result
+
+
+# ============================================================
+# Delete Budget
+# ============================================================
+
+@router.delete("/{budget_id}")
+def delete_budget(
+    budget_id: str,
+    current_user: dict = Depends(get_current_user),
+):
+    result = delete_budget_service(
+        user_email=current_user["sub"],
+        budget_id=budget_id,
+    )
+    if result is None:
+        raise HTTPException(status_code=404, detail="Budget not found.")
+    return result

@@ -1,11 +1,7 @@
 import json
 
-from google import genai
-
-from app.config import settings
 from app.prompts.financial_insights import FINANCIAL_INSIGHTS_PROMPT
-
-client = genai.Client(api_key=settings.GEMINI_API_KEY)
+from app.services.gemini_service import generate_gemini_response
 
 DEFAULT_RESPONSE = {
     "summary": "",
@@ -34,21 +30,10 @@ def generate_ai_insights(financial_statistics: dict):
     )
 
     try:
-        response = client.models.generate_content(
-            model=settings.GEMINI_MODEL,
-            contents=prompt,
-            config={
-                "response_mime_type": "application/json"
-            },
+        parsed = generate_gemini_response(
+            prompt=prompt,
+            response_mime_type="application/json",
         )
-
-        text = response.text.strip()
-
-        print("\n========== GEMINI RAW RESPONSE ==========")
-        print(text)
-        print("=========================================\n")
-
-        parsed = json.loads(text)
 
         return {
             "summary": parsed.get("summary", ""),
@@ -60,12 +45,6 @@ def generate_ai_insights(financial_statistics: dict):
                 DEFAULT_RESPONSE["confidence"]
             ),
         }
-
-    except json.JSONDecodeError as e:
-        print("\n===== JSON PARSE ERROR =====")
-        print(e)
-        print("============================\n")
-        return DEFAULT_RESPONSE
 
     except Exception as e:
         print("\n===== GEMINI ERROR =====")

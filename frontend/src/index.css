@@ -1,32 +1,14 @@
 @import "tailwindcss";
 
-/* ==========================================================
-   BillBuddy AI Design System
-========================================================== */
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+}
 
-:root {
-  /* Brand */
-  --color-primary: #7C83FD;
-  --color-primary-hover: #6D73F5;
-  --color-primary-light: #A5B4FC;
-
-  /* Backgrounds */
-  --background: #020617;
-  --sidebar: #0F172A;
-  --surface: #FFFFFF;
-
-  /* Text */
-  --text-primary: #0F172A;
-  --text-secondary: #64748B;
-
-  /* Status */
-  --success: #10B981;
-  --warning: #F59E0B;
-  --danger: #F43F5E;
-
-  /* Border */
-  --border: #E2E8F0;
-
-  /* Radius */
-  --radius: 18px;
+body {
+  margin: 0;
+  font-family: Inter, system-ui, sans-serif;
+  background-color: #f1f5f9;
 }
