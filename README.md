@@ -1,204 +1,174 @@
-# BillBuddy AI 🧾⚡
+# BillBuddy AI
 
-> **Smart Business & Daily Expense Manager powered by Google Gemini AI**
+Personal and business bill management platform with automated receipt scanning, due date tracking, and category budgeting.
 
-BillBuddy AI is an intelligent full-stack financial platform designed for business owners, freelancers, and professionals to effortlessly scan, track, and manage all daily bills (electricity, internet, office rent, vendor invoices, utilities) in one centralized place.
+## Why BillBuddy?
 
-Never lose track of which bills are paid, which ones are pending, or when your next payment deadline is due.
+Managing day-to-day business and household bills (electricity, water, broadband, office rent, vendor invoices) gets messy quickly. It is easy to lose track of what has already been cleared, what is still pending, and which invoices are approaching their due date.
 
----
-
-## 🌟 Key Features
-
-### 📷 1. AI Bill & Receipt Scanner (Gemini Vision OCR)
-- Upload or snap a picture / PDF of any electricity bill, utility bill, or vendor invoice.
-- Google Gemini Vision automatically extracts:
-  - **Merchant / Vendor** (e.g., Tata Power, Airtel, AWS, Landlord)
-  - **Bill Title & Total Amount**
-  - **Category** (Electricity, Internet, Rent, Office Supplies, Travel, Food, etc.)
-  - **Bill Date & Due Date**
-  - **Payment Status** (Paid vs. Pending)
-  - **Payment Method & Invoice / Consumer Notes**
-
-### ⏳ 2. Paid vs. Pending Bill Tracking & 1-Click Toggle
-- **Instant Status Toggle**: 1-click on any bill status badge instantly toggles between **Paid (Green)** and **Pending (Amber)**.
-- **Due Date Alerts**: Visual highlight for upcoming and overdue payment deadlines.
-- **Paid vs. Pending Volume**: Real-time financial metrics showing total money paid out vs. total money pending to clear.
-
-### 🔔 3. Business Dashboard & Upcoming Bills Widget
-- Clean financial summary: Total Expenses, Monthly Budget, Savings Goal, and Bill count.
-- **Upcoming Bills Widget**: Displays bills due in the next few days so you never incur late fees.
-- **Interactive Visualizations**: Monthly spending trend charts and category expense distribution.
-
-### 💰 4. Category-Wise Budget Management
-- Set customized monthly spending caps per category (e.g., *Electricity*, *Office Supplies*, *Food & Dining*).
-- Real-time progress bars showing spent vs. allocated budget with automated over-budget warnings.
-
-### 🎯 5. Financial Goals & Target Milestones
-- Plan capital for business expansion, emergency funds, or equipment purchases.
-- Animated savings progress meters, target deadlines, and completed milestones.
-
-### 💬 6. Conversational Financial Assistant ("Ask BillBuddy AI")
-- Dedicated AI financial advisor aware of your real-time financial context.
-- Ask questions in natural language:
-  - *"Which bills are pending this month?"*
-  - *"How much did I spend on electricity?"*
-  - *"Am I on track with my monthly budget?"*
-  - *"What bills are due in the next 7 days?"*
-
-### 📄 7. Reports & Data Export
-- Export financial expense records directly to **CSV** and **PDF** formats.
+I built BillBuddy AI to solve this:
+1. Scan paper receipts and digital bills (PDF or image) using multimodal AI to extract the merchant, amount, category, and payment due date.
+2. Keep clear visibility over **Paid vs. Pending** bills with a single-click status toggle.
+3. Maintain an upcoming bills queue on the dashboard so payment deadlines are not missed.
+4. Set category-wise monthly budget caps (electricity, office supplies, software, rent) with real-time spend tracking.
+5. Query an AI financial assistant in plain English about current expenses, pending bills, and budget limits.
 
 ---
 
-## 🛠️ Tech Stack
+## Features
 
-| Layer | Technology | Details |
-|---|---|---|
-| **Frontend** | React 19 + Vite | Ultra-fast SPA with modern Hooks |
-| **Styling** | Tailwind CSS + Lucide Icons | Clean modern design system |
-| **Backend** | Python 3.12+ / FastAPI | High-performance asynchronous REST API |
-| **AI / Multimodal** | Google Gemini API (2.0 Flash) | Vision OCR, Financial Insights & Chat Agent |
-| **Database** | MongoDB Atlas / Local MongoDB | Multi-tier resilient database connection |
-| **Authentication** | JWT (JSON Web Tokens) | Secure OAuth2 password bearer auth |
-| **PDF Export** | ReportLab | Formatted business statement generation |
+- **Receipt and Bill Scanning**: Uses Google Gemini Vision to read image or PDF invoices and extract the title, merchant, amount, category, bill date, due date, payment method, and notes.
+- **Bill Status Management**: Filter bills by status (All, Paid, Pending, Unpaid). Toggle between Paid and Pending with a single click.
+- **Due Date Tracking**: Highlights upcoming and overdue bills directly on the dashboard.
+- **Category Budgeting**: Define monthly spending limits per category (Electricity, Rent, Internet, Food, Office Supplies, etc.) with spend progress indicators.
+- **Financial Goals**: Set savings targets (equipment purchases, emergency reserves) and track progress toward target completion dates.
+- **AI Financial Assistant**: Ask natural-language questions about your expenses, upcoming dues, and category breakdowns.
+- **Export Options**: Export transaction histories as CSV or formatted PDF statements.
+- **Resilient Database Layer**: Connects to MongoDB Atlas or local MongoDB, with an in-memory fallback for local development.
 
 ---
 
-## 📁 Project Structure
+## Tech Stack
+
+- **Frontend**: React 19, Vite, Tailwind CSS, Lucide React, Recharts
+- **Backend**: Python 3.12, FastAPI, Pydantic, Uvicorn
+- **AI Engine**: Google Gemini API (`gemini-2.0-flash` multimodal)
+- **Database**: MongoDB (Atlas or local instance), PyMongo
+- **Authentication**: JWT (JSON Web Tokens) with Passlib and bcrypt
+- **Export**: ReportLab (PDF), pandas (CSV analytics)
+
+---
+
+## Architecture
 
 ```text
 BillBuddy-AI/
 ├── backend/
 │   ├── app/
-│   │   ├── database/       # Resilient MongoDB Atlas / Local connection
-│   │   ├── dependencies/   # JWT authentication & route security
-│   │   ├── models/         # Pydantic data models (Bill, User, Budget, Goal)
-│   │   ├── prompts/        # Gemini AI prompt templates
-│   │   ├── responses/      # Standard API response handlers
-│   │   ├── routes/         # REST API endpoints (bills, budget, goals, chat, users)
-│   │   ├── schemas/        # Request/response validation schemas
-│   │   ├── services/       # Business logic (bill OCR, analytics, AI chat)
-│   │   └── utils/          # Security & JWT hashing utilities
-│   ├── main.py             # FastAPI entrypoint & CORS setup
+│   │   ├── database/       # MongoDB connection with local fallback
+│   │   ├── dependencies/   # Authentication dependencies
+│   │   ├── models/         # Pydantic data models (User, Bill, Budget, Goal)
+│   │   ├── prompts/        # Gemini prompt templates
+│   │   ├── routes/         # FastAPI route handlers
+│   │   ├── schemas/        # Request and response schemas
+│   │   ├── services/       # Business logic (bill scanning, analytics, chat)
+│   │   └── utils/          # JWT and security utilities
+│   ├── main.py             # FastAPI entry point
 │   ├── requirements.txt    # Python dependencies
 │   └── .env                # Backend environment configuration
 │
 ├── frontend/
 │   ├── src/
-│   │   ├── api/            # Axios API client & interceptors
-│   │   ├── components/     # Reusable UI components (auth, bills, budget, dashboard)
-│   │   ├── context/        # Global AuthContext & state
-│   │   ├── pages/          # Dashboard, Bills, Budget, Goals, Insights, Chat, Profile
-│   │   ├── routes/         # Protected application router
-│   │   ├── services/       # Frontend service endpoints
-│   │   ├── utils/          # Constants, formatters, and helpers
-│   │   ├── App.jsx         # Root app layout
-│   │   └── main.jsx        # React root entrypoint
-│   ├── package.json        # Frontend dependencies & Vite scripts
-│   └── vite.config.js      # Vite configuration
+│   │   ├── api/            # Axios instance and interceptors
+│   │   ├── components/     # UI components (auth, bills, budget, dashboard)
+│   │   ├── context/        # Auth context and session management
+│   │   ├── pages/          # Application views (Dashboard, Bills, Budget, Goals, Chat, Profile)
+│   │   ├── routes/         # Protected route configuration
+│   │   └── services/       # Frontend API service layer
+│   ├── package.json        # Dependencies and scripts
+│   └── vite.config.js      # Vite build configuration
 │
 └── README.md
 ```
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
-- **Python 3.10+**
-- **Node.js 18+** & npm
-- A **Google Gemini API Key** (from [Google AI Studio](https://aistudio.google.com/))
-- *(Optional)* A **MongoDB Atlas** cluster URI (or local MongoDB)
+
+- Python 3.10+
+- Node.js 18+ and npm
+- A Google Gemini API key ([Google AI Studio](https://aistudio.google.com/))
+- (Optional) MongoDB Atlas account or local MongoDB instance
 
 ---
 
 ### 1. Backend Setup
 
 ```bash
-# 1. Navigate to backend directory
 cd backend
 
-# 2. Create and activate a virtual environment
+# Create and activate virtual environment
 python3 -m venv venv
 source venv/bin/activate       # On Windows: venv\Scripts\activate
 
-# 3. Install dependencies
+# Install dependencies
 pip install -r requirements.txt
-
-# 4. Configure .env file
-# Create a .env file in the backend folder with:
 ```
+
+Create a `.env` file inside the `backend/` directory:
 
 ```env
 MONGO_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/?retryWrites=true&w=majority
 DATABASE_NAME=billbuddy
 
-SECRET_KEY=your_super_secret_jwt_key
+SECRET_KEY=your_jwt_secret_key
 ALGORITHM=HS256
 ACCESS_TOKEN_EXPIRE_MINUTES=60
 
-GEMINI_API_KEY=your_gemini_api_key_here
+GEMINI_API_KEY=your_gemini_api_key
 GEMINI_MODEL=gemini-2.0-flash
 ```
 
+Start the FastAPI development server:
+
 ```bash
-# 5. Start the FastAPI development server
 uvicorn main:app --reload
 ```
-API server runs at: `http://127.0.0.1:8000`  
-Interactive Swagger Docs at: `http://127.0.0.1:8000/docs`
+
+The API will be running at `http://127.0.0.1:8000`. Interactive documentation is available at `http://127.0.0.1:8000/docs`.
 
 ---
 
 ### 2. Frontend Setup
 
-Open a **new terminal tab**:
+In a second terminal window:
 
 ```bash
-# 1. Navigate to frontend directory
 cd frontend
 
-# 2. Install dependencies
+# Install dependencies
 npm install
 
-# 3. Start Vite dev server
+# Start Vite dev server
 npm run dev
 ```
-Open **[http://localhost:5173](http://localhost:5173)** in your browser.
+
+Open `http://localhost:5173` in your browser. Register a new user account to log in.
 
 ---
 
-## 📡 Core API Endpoints
+## API Overview
 
 | Method | Endpoint | Description |
 |---|---|---|
 | `POST` | `/users/register` | Register a new user |
-| `POST` | `/users/login` | Login and obtain JWT bearer token |
+| `POST` | `/users/login` | Authenticate and obtain JWT bearer token |
 | `GET` | `/users/me` | Fetch authenticated user profile |
-| `POST` | `/bills/scan` | Upload receipt/bill image -> extract with Gemini Vision |
-| `GET` | `/bills/` | List bills with filters (status, category, dates, pagination) |
-| `POST` | `/bills/create` | Record a new bill manually |
-| `PATCH`| `/bills/{id}/toggle-status` | 1-Click toggle between Paid & Pending |
-| `GET` | `/bills/upcoming` | Fetch pending bills with upcoming deadlines |
-| `GET` | `/bills/statistics` | Summary metrics (Total paid, pending, count) |
-| `GET` | `/dashboard/summary` | Dashboard analytics snapshot |
-| `POST` | `/budget/create` | Set category spending budget |
-| `GET` | `/budget/statistics` | Budget usage vs. spent analytics |
+| `POST` | `/bills/scan` | Upload bill/receipt image or PDF for AI parsing |
+| `GET` | `/bills/` | Query bills with pagination, search, category, and status filters |
+| `POST` | `/bills/create` | Manually record a bill |
+| `PATCH`| `/bills/{id}/toggle-status` | Toggle status between Paid and Pending |
+| `GET` | `/bills/upcoming` | Fetch pending bills sorted by due date |
+| `GET` | `/bills/statistics` | Aggregate metrics (total expense, paid, pending) |
+| `GET` | `/dashboard/summary` | Overview metrics for dashboard widgets |
+| `POST` | `/budget/create` | Create a category budget |
+| `GET` | `/budget/statistics` | Compare category budgets against actual spend |
 | `POST` | `/goals/` | Create a financial savings goal |
-| `GET` | `/insights/` | Generate Gemini AI financial recommendations |
-| `POST` | `/chat/` | Ask BillBuddy AI conversational assistant |
+| `GET` | `/insights/` | Rule-based and AI-generated spending insights |
+| `POST` | `/chat/` | Conversational financial query endpoint |
 
 ---
 
-## 👤 Author
+## Author
 
-**Anjani Bharat Chauhan**  
-- M.Sc. Data Science, Shoolini University  
-- GitHub: [@bharatanjani512-hub](https://github.com/bharatanjani512-hub)
+Anjani Bharat Chauhan  
+M.Sc. Data Science, Shoolini University  
+GitHub: [@bharatanjani512-hub](https://github.com/bharatanjani512-hub)
 
 ---
 
-## 📄 License
+## License
 
-This project is licensed under the MIT License - feel free to use it for personal or commercial projects.
+This project is licensed under the MIT License.
