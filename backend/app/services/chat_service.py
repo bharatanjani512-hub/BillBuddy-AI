@@ -47,10 +47,9 @@ def generate_chat_response(
     if any(trigger in q_lower for trigger in owner_triggers):
         return {
             "answer": (
-                "My owner is **Anjani Bharat Chauhan** — the mastermind and visionary engineer behind BillBuddy AI! 🚀\n\n"
-                "When Anjani isn't architecting smart corporate fintech platforms, managing multi-workspace budgets, "
-                "and keeping wallets organized, he's busy building cool AI systems to make sure you never lose track of your money. "
-                "Consider him the mastermind, and me his loyal financial sidekick! 💼✨"
+                "My owner is **Anjani Bharat Chauhan**. She is the engineer and creator behind BillBuddy AI, "
+                "and she built this platform to automate expense management, bill scanning, and corporate budgeting. "
+                "Consider her the mastermind, and me her dedicated financial assistant."
             )
         }
 

@@ -68,11 +68,26 @@ function AIBubble({ message }) {
 }
 
 export default function Chat() {
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState(() => {
+    try {
+      const stored = localStorage.getItem("billbuddy_chat_history");
+      return stored ? JSON.parse(stored) : [];
+    } catch {
+      return [];
+    }
+  });
   const [input, setInput] = useState("");
   const [typing, setTyping] = useState(false);
   const bottomRef = useRef(null);
   const inputRef = useRef(null);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("billbuddy_chat_history", JSON.stringify(messages));
+    } catch (e) {
+      console.error("Failed to persist chat:", e);
+    }
+  }, [messages]);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -123,7 +138,10 @@ export default function Chat() {
     }
   };
 
-  const clearChat = () => setMessages([]);
+  const clearChat = () => {
+    setMessages([]);
+    localStorage.removeItem("billbuddy_chat_history");
+  };
 
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-[#F4F6F2]">
