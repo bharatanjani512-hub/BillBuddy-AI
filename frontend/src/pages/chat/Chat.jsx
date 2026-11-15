@@ -95,12 +95,19 @@ export default function Chat() {
         timestamp: Date.now(),
       };
       setMessages((prev) => [...prev, aiMsg]);
-    } catch {
+    } catch (err) {
+      const errMsg =
+        err.code === "ECONNABORTED"
+          ? "The request took longer than expected. Please try asking again."
+          : err.response?.data?.message ||
+            err.response?.data?.detail ||
+            "Unable to generate response right now. Please try again.";
+
       setMessages((prev) => [
         ...prev,
         {
           role: "ai",
-          text: "Something went wrong. Please try again.",
+          text: errMsg,
           timestamp: Date.now(),
         },
       ]);
