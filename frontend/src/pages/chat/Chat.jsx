@@ -119,10 +119,10 @@ export default function Chat() {
   const clearChat = () => setMessages([]);
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-slate-100 via-blue-50 to-slate-200">
+    <div className="flex flex-col md:flex-row min-h-screen bg-gradient-to-br from-slate-100 via-blue-50 to-slate-200">
       <DashboardSidebar />
 
-      <main className="flex-1 flex flex-col overflow-hidden p-10">
+      <main className="flex-1 flex flex-col overflow-hidden p-4 sm:p-6 lg:p-10 min-w-0">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div>

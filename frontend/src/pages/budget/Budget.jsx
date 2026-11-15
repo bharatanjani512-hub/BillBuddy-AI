@@ -371,9 +371,9 @@ const Budget = () => {
   const setPage = (p) => setFilters((f) => ({ ...f, page: p }));
 
   return (
-    <div className="flex min-h-screen bg-gradient-to-br from-slate-100 via-blue-50 to-slate-200">
+    <div className="flex flex-col md:flex-row min-h-screen bg-gradient-to-br from-slate-100 via-blue-50 to-slate-200">
       <DashboardSidebar />
-      <main className="flex-1 overflow-y-auto p-10">
+      <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-10 min-w-0">
 
         {/* ── Header ── */}
         <div className="mb-8 flex items-center justify-between">
@@ -460,7 +460,7 @@ const Budget = () => {
         </div>
 
         {/* ── Budget List ── */}
-        <div className="rounded-3xl border border-stone-200 bg-[#FEFDFB] shadow-sm overflow-hidden">
+        <div className="rounded-3xl border border-stone-200 bg-[#FEFDFB] shadow-sm overflow-x-auto">
           {loading ? (
             <div className="flex items-center justify-center py-20 text-slate-400">
               Loading budgets…
