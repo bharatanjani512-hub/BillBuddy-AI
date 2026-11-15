@@ -14,28 +14,38 @@ function AuthLayout({
 
         {/* Logo */}
 
-        <div className="mb-10 text-center">
-          <h1 className="text-5xl font-extrabold tracking-tight text-blue-600">
-            BillBuddy
-          </h1>
+        <div className="mb-8 text-center flex flex-col items-center">
+          <div className="flex items-center gap-2.5 mb-2">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-600 text-white font-bold text-lg shadow-xs">
+              B
+            </div>
+            <div className="flex items-center gap-1.5">
+              <span className="text-3xl font-bold tracking-tight text-slate-900">
+                BillBuddy
+              </span>
+              <span className="rounded-md border border-emerald-200 bg-emerald-50 px-1.5 py-0.5 text-xs font-semibold text-emerald-700">
+                AI
+              </span>
+            </div>
+          </div>
 
-          <p className="mt-2 text-slate-500 text-lg">
-            Your Personal AI Finance Assistant
+          <p className="text-slate-500 text-sm">
+            Smart Financial & Bill Management
           </p>
         </div>
 
         {/* Card */}
 
-        <div className="rounded-3xl border border-slate-200 bg-[#FAF9F6] p-10 shadow-md">
+        <div className="rounded-2xl border border-slate-200/80 bg-white p-8 sm:p-10 shadow-xs">
 
           {/* Heading */}
 
           <div className="mb-8">
-            <h2 className="text-4xl font-bold text-slate-900">
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
               {title}
             </h2>
 
-            <p className="mt-3 text-slate-500">
+            <p className="mt-2 text-sm text-slate-500">
               {subtitle}
             </p>
           </div>
@@ -46,14 +56,14 @@ function AuthLayout({
 
           {/* Footer */}
 
-          <div className="mt-8 border-t border-slate-200 pt-6 text-center">
+          <div className="mt-8 border-t border-slate-100 pt-6 text-center">
 
             <p className="text-sm text-slate-500">
               {footerText}{" "}
 
               <Link
                 to={footerLink}
-                className="font-semibold text-blue-600 transition-colors hover:text-blue-700"
+                className="font-semibold text-emerald-600 transition-colors hover:text-emerald-700"
               >
                 {footerLinkText}
               </Link>

@@ -42,23 +42,23 @@ function Profile() {
   const displayEmail = user?.email || "user@billbuddy.ai";
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen bg-gradient-to-br from-slate-100 via-blue-50 to-slate-200">
+    <div className="flex flex-col md:flex-row min-h-screen bg-[#F8FAFC]">
       <DashboardSidebar />
 
       <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-10 min-w-0">
         <div className="mb-8">
-          <h1 className="text-3xl font-extrabold text-slate-800">
-            Account & Settings ⚙️
+          <h1 className="text-3xl font-extrabold tracking-tight text-slate-900">
+            Account & Settings
           </h1>
-          <p className="mt-1 text-slate-500">
+          <p className="mt-1 text-sm text-slate-500">
             Manage your personal profile, business billing preferences, and auto-pay settings.
           </p>
         </div>
 
         <div className="grid gap-8 lg:grid-cols-3">
           {/* Left Column: Profile Card */}
-          <div className="rounded-3xl border border-stone-200 bg-[#FEFDFB] p-8 shadow-sm text-center flex flex-col items-center">
-            <div className="h-28 w-28 rounded-full bg-gradient-to-r from-blue-600 to-violet-600 flex items-center justify-center text-4xl font-extrabold text-white shadow-lg mb-4">
+          <div className="rounded-2xl border border-slate-200/80 bg-white p-8 shadow-xs text-center flex flex-col items-center">
+            <div className="h-24 w-24 rounded-2xl bg-emerald-600 flex items-center justify-center text-3xl font-bold text-white shadow-xs mb-4">
               {displayName.charAt(0).toUpperCase()}
             </div>
 
@@ -223,7 +223,7 @@ function Profile() {
 
                 <button
                   type="submit"
-                  className="rounded-xl bg-gradient-to-r from-blue-600 to-violet-600 px-6 py-2.5 text-sm font-semibold text-white shadow-md hover:opacity-95"
+                  className="rounded-xl bg-emerald-600 px-6 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-emerald-700 transition active:scale-[0.99]"
                 >
                   Save Changes
                 </button>

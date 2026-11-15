@@ -20,10 +20,10 @@ const SUGGESTED_QUESTIONS = [
 function TypingIndicator() {
   return (
     <div className="flex items-end gap-3 max-w-[75%]">
-      <div className="flex-shrink-0 h-9 w-9 rounded-full bg-gradient-to-br from-blue-500 to-violet-500 flex items-center justify-center shadow">
-        <Sparkles size={15} className="text-white" />
+      <div className="flex-shrink-0 h-8 w-8 rounded-lg bg-emerald-600 flex items-center justify-center shadow-xs">
+        <Sparkles size={14} className="text-white" />
       </div>
-      <div className="bg-[#FEFDFB] border border-stone-200 rounded-3xl rounded-bl-sm px-5 py-4 shadow-sm">
+      <div className="bg-white border border-slate-200/80 rounded-2xl rounded-bl-xs px-4 py-3 shadow-xs">
         <div className="flex gap-1.5 items-center h-5">
           {[0, 1, 2].map((i) => (
             <span
@@ -41,9 +41,9 @@ function TypingIndicator() {
 function UserBubble({ message }) {
   return (
     <div className="flex justify-end">
-      <div className="max-w-[75%] bg-gradient-to-br from-blue-600 to-violet-600 text-white rounded-3xl rounded-br-sm px-5 py-4 shadow-md">
+      <div className="max-w-[75%] bg-slate-900 text-white rounded-2xl rounded-br-xs px-4 py-3 shadow-xs">
         <p className="text-sm leading-relaxed">{message.text}</p>
-        <p className="text-[10px] mt-2 opacity-60 text-right">
+        <p className="text-[10px] mt-1.5 text-slate-400 text-right">
           {new Date(message.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
         </p>
       </div>
@@ -54,12 +54,12 @@ function UserBubble({ message }) {
 function AIBubble({ message }) {
   return (
     <div className="flex items-end gap-3 max-w-[75%]">
-      <div className="flex-shrink-0 h-9 w-9 rounded-full bg-gradient-to-br from-blue-500 to-violet-500 flex items-center justify-center shadow">
-        <Sparkles size={15} className="text-white" />
+      <div className="flex-shrink-0 h-8 w-8 rounded-lg bg-emerald-600 flex items-center justify-center shadow-xs">
+        <Sparkles size={14} className="text-white" />
       </div>
-      <div className="bg-[#FEFDFB] border border-stone-200 rounded-3xl rounded-bl-sm px-5 py-4 shadow-sm">
-        <p className="text-sm leading-relaxed text-slate-700">{message.text}</p>
-        <p className="text-[10px] mt-2 opacity-50 text-right text-slate-500">
+      <div className="bg-white border border-slate-200/80 rounded-2xl rounded-bl-xs px-4 py-3 shadow-xs">
+        <p className="text-sm leading-relaxed text-slate-800">{message.text}</p>
+        <p className="text-[10px] mt-1.5 text-slate-400 text-right">
           {new Date(message.timestamp).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}
         </p>
       </div>
@@ -119,7 +119,7 @@ export default function Chat() {
   const clearChat = () => setMessages([]);
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen bg-gradient-to-br from-slate-100 via-blue-50 to-slate-200">
+    <div className="flex flex-col md:flex-row min-h-screen bg-[#F8FAFC]">
       <DashboardSidebar />
 
       <main className="flex-1 flex flex-col overflow-hidden p-4 sm:p-6 lg:p-10 min-w-0">
@@ -127,49 +127,49 @@ export default function Chat() {
         <div className="flex items-center justify-between mb-6">
           <div>
             <div className="flex items-center gap-3 mb-1">
-              <div className="p-2.5 rounded-2xl bg-gradient-to-br from-blue-600 to-violet-600">
-                <MessageCircle size={22} className="text-white" />
+              <div className="p-2.5 rounded-xl bg-slate-900 text-emerald-400 shadow-xs">
+                <MessageCircle size={20} />
               </div>
-              <h1 className="text-3xl font-extrabold text-slate-800 tracking-tight">
-                AI Chat
+              <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">
+                Financial Assistant
               </h1>
             </div>
-            <p className="text-slate-500 ml-14">
-              Ask anything about your finances
+            <p className="text-sm text-slate-500 ml-12">
+              Ask questions about your bills, spending habits, or budgets
             </p>
           </div>
           {messages.length > 0 && (
             <button
               onClick={clearChat}
-              className="flex items-center gap-2 rounded-2xl border border-stone-200 bg-[#FEFDFB] px-4 py-2.5 text-sm font-medium text-slate-600 hover:bg-slate-50 transition shadow-sm"
+              className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-slate-600 hover:bg-slate-50 transition shadow-xs"
             >
-              <Trash2 size={15} />
+              <Trash2 size={14} />
               Clear Chat
             </button>
           )}
         </div>
 
         {/* Chat window */}
-        <div className="flex-1 flex flex-col rounded-3xl bg-white/60 backdrop-blur border border-stone-200 shadow-sm overflow-hidden">
+        <div className="flex-1 flex flex-col rounded-2xl bg-white border border-slate-200/80 shadow-xs overflow-hidden">
           {/* Messages area */}
-          <div className="flex-1 overflow-y-auto px-6 py-6 space-y-5">
+          <div className="flex-1 overflow-y-auto px-6 py-6 space-y-5 bg-slate-50/50">
 
             {/* Empty state: welcome + suggested questions */}
             {messages.length === 0 && !typing && (
               <div className="flex flex-col items-center justify-center h-full gap-6 py-10">
-                <div className="p-5 rounded-full bg-gradient-to-br from-blue-600 to-violet-600 shadow-xl">
-                  <Bot size={36} className="text-white" />
+                <div className="p-4 rounded-2xl bg-slate-900 text-emerald-400 shadow-xs">
+                  <Bot size={32} />
                 </div>
                 <div className="text-center">
-                  <h2 className="text-xl font-bold text-slate-800 mb-1">Hi, I'm BillBuddy AI!</h2>
-                  <p className="text-slate-500 text-sm">Ask me anything about your expenses, habits, or goals.</p>
+                  <h2 className="text-xl font-bold text-slate-900 mb-1">BillBuddy Assistant</h2>
+                  <p className="text-slate-500 text-sm">Ask anything about your expenses, categories, or budgets.</p>
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 w-full max-w-xl">
                   {SUGGESTED_QUESTIONS.map((q) => (
                     <button
                       key={q}
                       onClick={() => handleSend(q)}
-                      className="rounded-2xl border border-stone-200 bg-[#FEFDFB] px-4 py-3 text-sm text-slate-700 font-medium hover:bg-blue-50 hover:border-blue-200 hover:text-blue-700 transition text-left shadow-sm"
+                      className="rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-700 font-medium hover:bg-emerald-50/50 hover:border-emerald-300 hover:text-emerald-800 transition text-left shadow-2xs"
                     >
                       {q}
                     </button>
@@ -194,7 +194,7 @@ export default function Chat() {
           </div>
 
           {/* Input bar */}
-          <div className="border-t border-stone-200 p-4 bg-[#FEFDFB]/80 backdrop-blur">
+          <div className="border-t border-slate-200/80 p-4 bg-white">
             <div className="flex items-end gap-3">
               <textarea
                 ref={inputRef}
@@ -203,23 +203,23 @@ export default function Chat() {
                 onKeyDown={handleKeyDown}
                 placeholder="Ask about your finances…"
                 rows={1}
-                className="flex-1 resize-none rounded-2xl border border-stone-200 bg-white px-5 py-3.5 text-sm text-slate-800 placeholder-slate-400 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition max-h-36 overflow-y-auto"
+                className="flex-1 resize-none rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-800 placeholder-slate-400 outline-none focus:border-emerald-500 focus:ring-3 focus:ring-emerald-100 transition max-h-36 overflow-y-auto"
                 style={{ lineHeight: "1.5" }}
                 disabled={typing}
               />
               <button
                 onClick={() => handleSend()}
                 disabled={typing || !input.trim()}
-                className="shrink-0 flex items-center justify-center h-12 w-12 rounded-2xl bg-gradient-to-br from-blue-600 to-violet-600 text-white shadow-lg hover:opacity-90 transition disabled:opacity-50"
+                className="shrink-0 flex items-center justify-center h-11 w-11 rounded-xl bg-emerald-600 text-white shadow-xs hover:bg-emerald-700 transition disabled:opacity-50 active:scale-[0.99]"
               >
                 {typing ? (
-                  <Loader2 size={18} className="animate-spin" />
+                  <Loader2 size={16} className="animate-spin" />
                 ) : (
-                  <Send size={18} />
+                  <Send size={16} />
                 )}
               </button>
             </div>
-            <p className="text-xs text-slate-400 mt-2 ml-1">
+            <p className="text-[11px] text-slate-400 mt-2 ml-1">
               Press Enter to send · Shift+Enter for new line
             </p>
           </div>

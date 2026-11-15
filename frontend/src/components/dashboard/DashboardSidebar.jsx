@@ -66,7 +66,7 @@ function DashboardSidebar() {
   const initial = displayName.charAt(0).toUpperCase();
 
   const renderNavLinks = () => (
-    <nav className="flex-1 px-4 py-5 space-y-1.5 overflow-y-auto">
+    <nav className="flex-1 px-4 py-5 space-y-1 overflow-y-auto">
       {menuItems.map((item) => {
         const Icon = item.icon;
 
@@ -76,15 +76,22 @@ function DashboardSidebar() {
             to={item.path}
             onClick={() => setMobileOpen(false)}
             className={({ isActive }) =>
-              `flex items-center gap-3.5 rounded-2xl px-4 py-3 font-medium text-sm transition-all duration-200 ${
+              `flex items-center gap-3.5 rounded-xl px-3.5 py-2.5 text-sm font-medium transition-colors ${
                 isActive
-                  ? "bg-gradient-to-r from-blue-600 to-violet-600 text-white shadow-md font-semibold"
-                  : "text-slate-700 hover:bg-slate-100"
+                  ? "bg-slate-900 text-white font-semibold shadow-xs"
+                  : "text-slate-600 hover:bg-slate-100/80 hover:text-slate-900"
               }`
             }
           >
-            <Icon size={20} />
-            {item.name}
+            {({ isActive }) => (
+              <>
+                <Icon
+                  size={19}
+                  className={isActive ? "text-emerald-400" : "text-slate-500"}
+                />
+                <span>{item.name}</span>
+              </>
+            )}
           </NavLink>
         );
       })}
@@ -92,10 +99,10 @@ function DashboardSidebar() {
   );
 
   const renderUserFooter = () => (
-    <div className="border-t border-stone-200 p-4">
-      <div className="flex items-center justify-between gap-3 rounded-2xl bg-slate-50 p-3 border border-slate-100">
+    <div className="border-t border-slate-200/80 p-4">
+      <div className="flex items-center justify-between gap-3 rounded-xl bg-slate-50 p-2.5 border border-slate-200/60">
         <div className="flex items-center gap-3 min-w-0">
-          <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gradient-to-r from-blue-600 to-violet-600 text-sm font-bold text-white shadow-sm">
+          <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-600 text-xs font-bold text-white shadow-xs">
             {initial}
           </div>
 
@@ -112,9 +119,9 @@ function DashboardSidebar() {
         <button
           onClick={handleLogout}
           title="Sign Out"
-          className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition"
+          className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition"
         >
-          <LogOut size={17} />
+          <LogOut size={16} />
         </button>
       </div>
     </div>
@@ -123,22 +130,30 @@ function DashboardSidebar() {
   return (
     <>
       {/* ── Mobile Top Header (Phone only) ── */}
-      <header className="md:hidden sticky top-0 z-30 flex items-center justify-between border-b border-stone-200 bg-[#FEFDFB]/95 backdrop-blur-md px-4 py-3 shadow-xs">
+      <header className="md:hidden sticky top-0 z-30 flex items-center justify-between border-b border-slate-200/80 bg-white/95 backdrop-blur-md px-4 py-3 shadow-2xs">
         <div className="flex items-center gap-2.5">
           <button
             onClick={() => setMobileOpen(true)}
-            className="rounded-xl p-2 text-slate-700 hover:bg-slate-100 transition active:scale-95"
+            className="rounded-lg p-2 text-slate-700 hover:bg-slate-100 transition active:scale-95"
             aria-label="Open Navigation"
           >
-            <Menu size={22} />
+            <Menu size={20} />
           </button>
-          <h1 className="text-xl font-extrabold tracking-tight bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">
-            BillBuddy AI
-          </h1>
+          <div className="flex items-center gap-2">
+            <div className="flex h-7 w-7 items-center justify-center rounded-md bg-emerald-600 text-white font-bold text-xs shadow-xs">
+              B
+            </div>
+            <span className="text-lg font-bold tracking-tight text-slate-900">
+              BillBuddy
+            </span>
+            <span className="rounded-md border border-emerald-200 bg-emerald-50 px-1.5 py-0.5 text-[10px] font-semibold text-emerald-700">
+              AI
+            </span>
+          </div>
         </div>
 
         <div className="flex items-center gap-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-r from-blue-600 to-violet-600 text-xs font-bold text-white shadow-sm">
+          <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-600 text-xs font-bold text-white shadow-xs">
             {initial}
           </div>
         </div>
@@ -149,27 +164,37 @@ function DashboardSidebar() {
         <div className="fixed inset-0 z-50 md:hidden">
           {/* Backdrop */}
           <div
-            className="fixed inset-0 bg-slate-900/50 backdrop-blur-xs transition-opacity"
+            className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs transition-opacity"
             onClick={() => setMobileOpen(false)}
           />
 
           {/* Drawer Content */}
-          <aside className="fixed inset-y-0 left-0 flex w-72 max-w-[85vw] flex-col border-r border-stone-200 bg-[#FEFDFB] shadow-2xl z-10">
+          <aside className="fixed inset-y-0 left-0 flex w-72 max-w-[85vw] flex-col border-r border-slate-200 bg-white shadow-xl z-10">
             {/* Header */}
-            <div className="flex items-center justify-between border-b border-stone-200 px-6 py-5">
-              <div>
-                <h1 className="text-2xl font-extrabold tracking-tight bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">
-                  BillBuddy AI
-                </h1>
-                <p className="mt-0.5 text-xs font-medium text-slate-500">
-                  Smart Business & Bill Manager
-                </p>
+            <div className="flex items-center justify-between border-b border-slate-200/80 px-6 py-5">
+              <div className="flex items-center gap-2.5">
+                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-600 text-white font-bold text-sm shadow-xs">
+                  B
+                </div>
+                <div>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-lg font-bold tracking-tight text-slate-900">
+                      BillBuddy
+                    </span>
+                    <span className="rounded-md border border-emerald-200 bg-emerald-50 px-1.5 py-0.5 text-[10px] font-semibold text-emerald-700">
+                      AI
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-400">
+                    Smart Bill & Expense Manager
+                  </p>
+                </div>
               </div>
               <button
                 onClick={() => setMobileOpen(false)}
                 className="rounded-lg p-1.5 text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition"
               >
-                <X size={20} />
+                <X size={18} />
               </button>
             </div>
 
@@ -183,15 +208,27 @@ function DashboardSidebar() {
       )}
 
       {/* ── Desktop Persistent Sidebar ── */}
-      <aside className="hidden md:flex h-screen w-64 lg:w-72 shrink-0 flex-col sticky top-0 border-r border-stone-200 bg-[#FEFDFB]">
+      <aside className="hidden md:flex h-screen w-64 lg:w-72 shrink-0 flex-col sticky top-0 border-r border-slate-200/80 bg-white">
         {/* Logo */}
-        <div className="border-b border-stone-200 px-7 py-7">
-          <h1 className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-blue-600 to-violet-600 bg-clip-text text-transparent">
-            BillBuddy AI
-          </h1>
-          <p className="mt-1 text-xs font-medium text-slate-500">
-            Smart Business & Bill Manager
-          </p>
+        <div className="border-b border-slate-200/80 px-6 py-6">
+          <div className="flex items-center gap-2.5">
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-600 text-white font-bold text-base shadow-xs">
+              B
+            </div>
+            <div>
+              <div className="flex items-center gap-1.5">
+                <span className="text-xl font-bold tracking-tight text-slate-900">
+                  BillBuddy
+                </span>
+                <span className="rounded-md border border-emerald-200 bg-emerald-50 px-1.5 py-0.5 text-[10px] font-semibold text-emerald-700">
+                  AI
+                </span>
+              </div>
+              <p className="text-xs text-slate-400 mt-0.5">
+                Financial Management
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* Navigation */}

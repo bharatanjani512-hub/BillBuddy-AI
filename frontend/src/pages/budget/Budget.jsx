@@ -88,7 +88,7 @@ function ProgressBar({ spent, total }) {
       </div>
       <div className="h-2 w-full overflow-hidden rounded-full bg-slate-100">
         <div
-          className={`h-2 rounded-full transition-all ${over ? "bg-red-500" : "bg-gradient-to-r from-blue-500 to-violet-500"}`}
+          className={`h-2 rounded-full transition-all ${over ? "bg-red-500" : "bg-emerald-500"}`}
           style={{ width: `${pct}%` }}
         />
       </div>
@@ -200,7 +200,7 @@ function BudgetModal({ title, form, onChange, onSubmit, onClose, saving }) {
           <button
             type="submit"
             disabled={saving}
-            className="w-full rounded-xl bg-gradient-to-r from-blue-500 to-violet-500 py-2.5 text-sm font-semibold text-white shadow transition hover:opacity-90 disabled:opacity-60"
+            className="w-full rounded-xl bg-emerald-600 py-2.5 text-sm font-semibold text-white shadow-xs transition hover:bg-emerald-700 disabled:opacity-60 active:scale-[0.99]"
           >
             {saving ? "Saving…" : "Save Budget"}
           </button>
@@ -371,19 +371,19 @@ const Budget = () => {
   const setPage = (p) => setFilters((f) => ({ ...f, page: p }));
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen bg-gradient-to-br from-slate-100 via-blue-50 to-slate-200">
+    <div className="flex flex-col md:flex-row min-h-screen bg-[#F8FAFC]">
       <DashboardSidebar />
       <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-10 min-w-0">
 
         {/* ── Header ── */}
         <div className="mb-8 flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-slate-800">Budget</h1>
-            <p className="mt-1 text-slate-500">Manage your category-wise budgets.</p>
+            <h1 className="text-3xl font-extrabold tracking-tight text-slate-900">Budget</h1>
+            <p className="mt-1 text-sm text-slate-500">Manage your category-wise spending limits.</p>
           </div>
           <button
             onClick={() => { setForm({ ...emptyForm }); setShowAdd(true); }}
-            className="flex items-center gap-2 rounded-2xl bg-gradient-to-r from-blue-500 to-violet-500 px-5 py-2.5 text-sm font-semibold text-white shadow transition hover:opacity-90"
+            className="flex items-center gap-2 rounded-xl bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white shadow-xs transition hover:bg-emerald-700 active:scale-[0.99]"
           >
             <PlusCircle size={16} />
             Add Budget

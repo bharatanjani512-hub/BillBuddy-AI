@@ -124,26 +124,26 @@ function Goals() {
   const completedGoals = goals.filter((g) => (parseFloat(g.saved_amount) || 0) >= (parseFloat(g.target_amount) || 0)).length;
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen bg-gradient-to-br from-slate-100 via-blue-50 to-slate-200">
+    <div className="flex flex-col md:flex-row min-h-screen bg-[#F8FAFC]">
       <DashboardSidebar />
 
       <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-10 min-w-0">
         {/* Top Header */}
         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-8">
           <div>
-            <h1 className="text-3xl font-extrabold text-slate-800">
-              Financial Goals 🎯
+            <h1 className="text-3xl font-extrabold tracking-tight text-slate-900">
+              Financial Goals
             </h1>
-            <p className="mt-1 text-slate-500">
-              Set savings targets for business equipment, emergencies, and investments.
+            <p className="mt-1 text-sm text-slate-500">
+              Set savings targets for investments, emergency reserves, and major purchases.
             </p>
           </div>
 
           <button
             onClick={handleOpenAdd}
-            className="flex items-center gap-2 rounded-2xl bg-gradient-to-r from-blue-600 to-violet-600 px-5 py-3 font-semibold text-white shadow-md transition hover:opacity-95"
+            className="flex items-center gap-2 rounded-xl bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white shadow-xs transition hover:bg-emerald-700 active:scale-[0.99]"
           >
-            <Plus size={20} />
+            <Plus size={18} />
             Add Goal
           </button>
         </div>
@@ -174,10 +174,10 @@ function Goals() {
 
           <div className="rounded-3xl border border-stone-200 bg-[#FEFDFB] p-6 shadow-sm">
             <p className="text-sm font-medium text-slate-500">Overall Progress</p>
-            <p className="mt-2 text-3xl font-extrabold text-violet-600">{overallProgress}%</p>
+            <p className="mt-2 text-3xl font-extrabold text-emerald-600">{overallProgress}%</p>
             <div className="mt-2 h-2 w-full rounded-full bg-slate-100 overflow-hidden">
               <div
-                className="h-full bg-gradient-to-r from-blue-500 to-violet-600 rounded-full transition-all duration-500"
+                className="h-full bg-emerald-500 rounded-full transition-all duration-500"
                 style={{ width: `${overallProgress}%` }}
               />
             </div>
@@ -265,7 +265,7 @@ function Goals() {
                       <div className="h-3 w-full rounded-full bg-slate-100 overflow-hidden">
                         <div
                           className={`h-full rounded-full transition-all duration-500 ${
-                            isDone ? "bg-emerald-500" : "bg-gradient-to-r from-blue-500 to-violet-600"
+                            isDone ? "bg-emerald-600" : "bg-emerald-500"
                           }`}
                           style={{ width: `${pct}%` }}
                         />
@@ -387,7 +387,7 @@ function Goals() {
                   <button
                     type="submit"
                     disabled={saving}
-                    className="rounded-xl bg-gradient-to-r from-blue-600 to-violet-600 px-6 py-2.5 text-sm font-semibold text-white shadow-md hover:opacity-95 disabled:opacity-60"
+                    className="rounded-xl bg-emerald-600 px-6 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-emerald-700 disabled:opacity-60 transition active:scale-[0.99]"
                   >
                     {saving ? "Saving..." : editingGoal ? "Update Goal" : "Create Goal"}
                   </button>

@@ -86,13 +86,13 @@ function Dashboard() {
   };
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen bg-gradient-to-br from-slate-100 via-blue-50 to-slate-200">
+    <div className="flex flex-col md:flex-row min-h-screen bg-[#F8FAFC]">
       <DashboardSidebar />
       <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-10 min-w-0">
         <DashboardHeader />
 
         {/* Financial Summary */}
-        <section className="mt-8 rounded-3xl border border-stone-200 bg-[#FEFDFB] p-8 shadow-sm">
+        <section className="mt-8 rounded-2xl border border-slate-200/80 bg-white p-6 sm:p-8 shadow-xs">
           <div className="mb-8">
             <h2 className="text-2xl font-bold text-slate-800">
               Financial Summary

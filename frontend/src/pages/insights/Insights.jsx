@@ -89,7 +89,7 @@ export default function Insights() {
   const level = confidence?.level;
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen bg-gradient-to-br from-slate-100 via-blue-50 to-slate-200">
+    <div className="flex flex-col md:flex-row min-h-screen bg-[#F8FAFC]">
       <DashboardSidebar />
       <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-10 min-w-0">
 
@@ -97,23 +97,23 @@ export default function Insights() {
         <div className="flex items-center justify-between mb-8">
           <div>
             <div className="flex items-center gap-3 mb-1">
-              <div className="p-2.5 rounded-2xl bg-gradient-to-br from-blue-600 to-violet-600">
-                <Sparkles size={22} className="text-white" />
+              <div className="p-2.5 rounded-xl bg-slate-900 text-emerald-400 shadow-xs">
+                <Sparkles size={20} />
               </div>
-              <h1 className="text-3xl font-extrabold text-slate-800 tracking-tight">
-                AI Insights
+              <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">
+                Financial Insights
               </h1>
             </div>
-            <p className="text-slate-500 ml-14">
-              Smart analysis of your financial habits
+            <p className="text-sm text-slate-500 ml-12">
+              Automated analysis of your spending and budgeting patterns
             </p>
           </div>
           <button
             onClick={load}
             disabled={loading}
-            className="flex items-center gap-2 rounded-2xl bg-gradient-to-r from-blue-600 to-violet-600 px-5 py-3 text-sm font-semibold text-white shadow-lg hover:opacity-90 transition disabled:opacity-60"
+            className="flex items-center gap-2 rounded-xl bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-slate-800 transition disabled:opacity-60 active:scale-[0.99]"
           >
-            <RefreshCw size={16} className={loading ? "animate-spin" : ""} />
+            <RefreshCw size={15} className={loading ? "animate-spin" : ""} />
             Refresh Insights
           </button>
         </div>
@@ -170,10 +170,10 @@ export default function Insights() {
 
             {/* AI Summary */}
             {ai?.summary && (
-              <div className="rounded-3xl bg-gradient-to-br from-blue-600 to-violet-600 p-8 shadow-xl text-white">
-                <div className="flex items-center gap-2 mb-4 opacity-80">
-                  <Sparkles size={18} />
-                  <span className="text-sm font-semibold uppercase tracking-widest">AI Summary</span>
+              <div className="rounded-2xl bg-slate-900 p-8 shadow-xs text-white border border-slate-800">
+                <div className="flex items-center gap-2 mb-4 text-emerald-400">
+                  <Sparkles size={16} />
+                  <span className="text-xs font-semibold uppercase tracking-wider">AI Executive Summary</span>
                 </div>
                 <p className="text-lg leading-relaxed font-medium">{ai.summary}</p>
 

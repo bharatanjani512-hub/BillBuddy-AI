@@ -4,8 +4,8 @@ import RegisterForm from "../../components/auth/RegisterForm";
 function Register() {
   return (
     <AuthLayout
-      title="Create Account 🚀"
-      subtitle="Start managing your business and personal bills smarter with AI."
+      title="Create your account"
+      subtitle="Start managing your bills, expenses, and budgets with AI."
       footerText="Already have an account?"
       footerLinkText="Sign In"
       footerLink="/login"
