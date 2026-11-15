@@ -31,6 +31,29 @@ def generate_chat_response(
     """
     Generates an AI-powered financial chat response.
     """
+    q_lower = question.lower().strip()
+    owner_triggers = [
+        "who is the owner",
+        "who is your owner",
+        "owner of you",
+        "who created you",
+        "who made you",
+        "who built you",
+        "who is your creator",
+        "who owns you",
+        "who designed you",
+        "who founded you",
+    ]
+    if any(trigger in q_lower for trigger in owner_triggers):
+        return {
+            "answer": (
+                "My owner is **Anjani Bharat Chauhan** — the mastermind and visionary engineer behind BillBuddy AI! 🚀\n\n"
+                "When Anjani isn't architecting smart corporate fintech platforms, managing multi-workspace budgets, "
+                "and keeping wallets organized, he's busy building cool AI systems to make sure you never lose track of your money. "
+                "Consider him the mastermind, and me his loyal financial sidekick! 💼✨"
+            )
+        }
+
     try:
         # ---------------------------------------
         # Fetch User
