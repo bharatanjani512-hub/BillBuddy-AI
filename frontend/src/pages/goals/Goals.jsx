@@ -97,7 +97,11 @@ function Goals() {
       await loadGoals();
     } catch (err) {
       console.error("Failed to save goal", err);
-      alert("Failed to save goal. Please check all fields.");
+      const errMsg =
+        err.response?.data?.detail ||
+        err.response?.data?.message ||
+        "Failed to save goal. Please check all fields.";
+      alert(errMsg);
     } finally {
       setSaving(false);
     }

@@ -12,6 +12,18 @@ if settings.GEMINI_API_KEY:
         print(f"⚠️ Failed to initialize Gemini client: {e}")
 
 
+def _get_candidate_models():
+    primary = settings.GEMINI_MODEL or "gemini-3.6-flash"
+    candidates = [primary, "gemini-3.6-flash", "gemini-3.8-flash"]
+    seen = set()
+    result = []
+    for m in candidates:
+        if m and m not in seen:
+            seen.add(m)
+            result.append(m)
+    return result
+
+
 def generate_gemini_response(
     prompt: str,
     response_mime_type: str = "text/plain",
@@ -25,25 +37,35 @@ def generate_gemini_response(
             return {}
         return "Gemini API client not configured."
 
-    response = client.models.generate_content(
-        model=settings.GEMINI_MODEL,
-        contents=prompt,
-        config={
-            "response_mime_type": response_mime_type
-        },
-    )
+    last_error = None
+    for model_name in _get_candidate_models():
+        try:
+            response = client.models.generate_content(
+                model=model_name,
+                contents=prompt,
+                config={
+                    "response_mime_type": response_mime_type
+                },
+            )
+
+            if response_mime_type == "application/json":
+                text = response.text.strip()
+                if text.startswith("```json"):
+                    text = text[7:]
+                if text.startswith("```"):
+                    text = text[3:]
+                if text.endswith("```"):
+                    text = text[:-3]
+                return json.loads(text.strip())
+
+            return response.text.strip()
+        except Exception as e:
+            last_error = e
+            print(f"⚠️ Gemini model '{model_name}' failed: {e}. Trying fallback...")
 
     if response_mime_type == "application/json":
-        text = response.text.strip()
-        if text.startswith("```json"):
-            text = text[7:]
-        if text.startswith("```"):
-            text = text[3:]
-        if text.endswith("```"):
-            text = text[:-3]
-        return json.loads(text.strip())
-
-    return response.text.strip()
+        return {}
+    return f"Unable to generate response. Please try again. ({last_error})"
 
 
 def generate_gemini_scan_response(
@@ -72,20 +94,28 @@ def generate_gemini_scan_response(
         prompt,
     ]
 
-    response = client.models.generate_content(
-        model=settings.GEMINI_MODEL,
-        contents=contents,
-        config={
-            "response_mime_type": "application/json"
-        },
-    )
+    last_error = None
+    for model_name in _get_candidate_models():
+        try:
+            response = client.models.generate_content(
+                model=model_name,
+                contents=contents,
+                config={
+                    "response_mime_type": "application/json"
+                },
+            )
 
-    text = response.text.strip()
-    if text.startswith("```json"):
-        text = text[7:]
-    if text.startswith("```"):
-        text = text[3:]
-    if text.endswith("```"):
-        text = text[:-3]
+            text = response.text.strip()
+            if text.startswith("```json"):
+                text = text[7:]
+            if text.startswith("```"):
+                text = text[3:]
+            if text.endswith("```"):
+                text = text[:-3]
 
-    return json.loads(text.strip())
+            return json.loads(text.strip())
+        except Exception as e:
+            last_error = e
+            print(f"⚠️ Gemini scan with model '{model_name}' failed: {e}. Trying fallback...")
+
+    raise RuntimeError(f"All Gemini models failed to scan bill: {last_error}")
