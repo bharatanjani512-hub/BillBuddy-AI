@@ -14,6 +14,8 @@ from app.routes.insights import router as insights_router
 from app.routes.budget import router as budget_router
 from app.routes.goal import router as goal_router
 from app.routes.chat import router as chat_router
+from app.routes.workspace import router as workspace_router
+from app.routes.wallet import router as wallet_router
 
 app = FastAPI(
     title="BillBuddy AI",
@@ -149,6 +151,26 @@ app.include_router(
     chat_router,
     prefix="/chat",
     tags=["AI Chat"]
+)
+
+# ==================================================
+# Workspace & Folder Routes (Multi-User / Business)
+# ==================================================
+
+app.include_router(
+    workspace_router,
+    prefix="/workspaces",
+    tags=["Workspaces"]
+)
+
+# ==================================================
+# Corporate Wallet Routes
+# ==================================================
+
+app.include_router(
+    wallet_router,
+    prefix="/wallets",
+    tags=["Wallets"]
 )
 
 # ==================================================

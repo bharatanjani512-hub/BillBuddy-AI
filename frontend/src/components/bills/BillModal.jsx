@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { useWorkspace } from "../../context/WorkspaceContext";
+import { Building2, User, Wallet } from "lucide-react";
 
 const initialForm = {
   title: "",
@@ -10,6 +12,10 @@ const initialForm = {
   due_date: "",
   status: "Paid",
   notes: "",
+  workspace_id: "",
+  folder_name: "",
+  wallet_id: "",
+  is_corporate: false,
 };
 
 const BillModal = ({
@@ -19,10 +25,17 @@ const BillModal = ({
   initialData = null,
   loading = false,
 }) => {
+  const { workspaces, currentWorkspace, wallets } = useWorkspace();
   const [form, setForm] = useState(initialForm);
+
+  const activeWallet = wallets && wallets.length > 0 ? wallets[0] : null;
 
   useEffect(() => {
     if (!isOpen) return;
+
+    const defaultWsId = currentWorkspace?._id || "";
+    const defaultWsName = currentWorkspace?.name || "Personal Finances";
+    const defaultIsCorp = currentWorkspace?.type === "corporate";
 
     if (initialData) {
       setForm({
@@ -35,14 +48,22 @@ const BillModal = ({
         due_date: initialData.due_date || "",
         status: initialData.status || "Paid",
         notes: initialData.notes || "",
+        workspace_id: initialData.workspace_id || defaultWsId,
+        folder_name: initialData.folder_name || defaultWsName,
+        wallet_id: initialData.wallet_id || (defaultIsCorp && activeWallet ? activeWallet._id : ""),
+        is_corporate: initialData.is_corporate !== undefined ? initialData.is_corporate : defaultIsCorp,
       });
     } else {
       setForm({
         ...initialForm,
         date: new Date().toISOString().split("T")[0],
+        workspace_id: defaultWsId,
+        folder_name: defaultWsName,
+        wallet_id: defaultIsCorp && activeWallet ? activeWallet._id : "",
+        is_corporate: defaultIsCorp,
       });
     }
-  }, [initialData, isOpen]);
+  }, [initialData, isOpen, currentWorkspace, activeWallet]);
 
   const handleChange = (e) => {
     setForm((prev) => ({
@@ -208,6 +229,68 @@ const BillModal = ({
                     : "border-slate-300 focus:border-blue-500 focus:ring-blue-100"
                 }`}
               />
+            </div>
+          </div>
+
+          {/* Folder & Corporate Allocation */}
+          <div className="rounded-2xl border border-stone-200 bg-[#F4F7F2] p-4 space-y-3">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div className="flex-1">
+                <label className="mb-1 block text-xs font-bold uppercase tracking-wider text-stone-600">
+                  Assign To Folder / Workspace
+                </label>
+                <select
+                  name="workspace_id"
+                  value={form.workspace_id}
+                  onChange={(e) => {
+                    const selectedWs = workspaces.find((w) => w._id === e.target.value);
+                    const isCorp = selectedWs?.type === "corporate";
+                    setForm((prev) => ({
+                      ...prev,
+                      workspace_id: e.target.value,
+                      folder_name: selectedWs?.name || "",
+                      is_corporate: isCorp,
+                      wallet_id: isCorp && activeWallet ? activeWallet._id : "",
+                    }));
+                  }}
+                  className="w-full rounded-xl border border-stone-300 bg-white px-3.5 py-2 text-sm font-semibold text-stone-900 outline-none focus:border-[#365314]"
+                >
+                  {workspaces.map((ws) => (
+                    <option key={ws._id} value={ws._id}>
+                      {ws.type === "corporate" ? "🏢 [Corporate] " : "📁 "}
+                      {ws.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {activeWallet && (
+                <div className="sm:w-60 rounded-xl border border-stone-300 bg-white p-3">
+                  <label className="flex items-start gap-2.5 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={form.is_corporate}
+                      onChange={(e) =>
+                        setForm((prev) => ({
+                          ...prev,
+                          is_corporate: e.target.checked,
+                          wallet_id: e.target.checked && activeWallet ? activeWallet._id : "",
+                        }))
+                      }
+                      className="mt-1 h-4 w-4 rounded accent-[#365314]"
+                    />
+                    <div className="text-xs">
+                      <span className="font-bold text-stone-900 flex items-center gap-1">
+                        <Wallet size={12} className="text-[#365314]" />
+                        Charge Corporate Wallet
+                      </span>
+                      <p className="text-[10px] text-stone-500 mt-0.5">
+                        Pool Balance: ₹{activeWallet.balance?.toLocaleString("en-IN") || "0"}
+                      </p>
+                    </div>
+                  </label>
+                </div>
+              )}
             </div>
           </div>
 

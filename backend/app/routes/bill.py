@@ -84,6 +84,7 @@ def get_my_bills(
     from_date: str | None = None,
     to_date: str | None = None,
     sort: str = "latest",
+    workspace_id: str | None = None,
     current_user: dict = Depends(get_current_user),
 ):
     return get_bills_service(
@@ -99,6 +100,7 @@ def get_my_bills(
         from_date=from_date,
         to_date=to_date,
         sort=sort,
+        workspace_id=workspace_id,
     )
 
 

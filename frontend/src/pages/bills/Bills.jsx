@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import DashboardSidebar from "../../components/dashboard/DashboardSidebar";
+import { useWorkspace } from "../../context/WorkspaceContext";
 import {
   fetchBills,
   fetchBillStatistics,
@@ -19,6 +20,7 @@ import BillModal from "../../components/bills/BillModal";
 import DeleteModal from "../../components/bills/DeleteModal";
 
 const Bills = () => {
+  const { currentWorkspace } = useWorkspace();
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [scanning, setScanning] = useState(false);
@@ -58,6 +60,7 @@ const Bills = () => {
       const response = await fetchBills({
         ...filters,
         search,
+        workspace_id: currentWorkspace?._id,
       });
 
       const list = response.data?.bills || response.bills || [];
@@ -189,7 +192,7 @@ const Bills = () => {
 
   useEffect(() => {
     loadBills();
-  }, [filters, search]);
+  }, [filters, search, currentWorkspace]);
 
   useEffect(() => {
     loadStatistics();

@@ -11,7 +11,17 @@ const BillRow = ({
   return (
     <tr className="border-t border-slate-100 transition hover:bg-slate-50">
       <td className="px-6 py-5">
-        <p className="font-semibold text-slate-800">{bill.title}</p>
+        <div className="flex items-center gap-2">
+          <p className="font-semibold text-slate-800">{bill.title}</p>
+          {bill.is_corporate && (
+            <span className="rounded-md border border-[#365314]/30 bg-[#365314]/10 px-1.5 py-0.5 text-[10px] font-bold text-[#1C2C1A]">
+              Corporate
+            </span>
+          )}
+        </div>
+        {bill.folder_name && (
+          <p className="text-[11px] text-stone-500 font-medium">📁 {bill.folder_name}</p>
+        )}
         {bill.notes && (
           <p className="text-xs text-slate-400 truncate max-w-xs">{bill.notes}</p>
         )}

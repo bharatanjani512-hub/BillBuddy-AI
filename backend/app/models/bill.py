@@ -16,3 +16,11 @@ class Bill(BaseModel):
     due_date: Optional[str] = None  # YYYY-MM-DD
     is_recurring: Optional[bool] = False
     auto_pay: Optional[bool] = False
+
+    # Multi-Workspace / Corporate Support
+    workspace_id: Optional[str] = None
+    folder_name: Optional[str] = None
+    wallet_id: Optional[str] = None
+    is_corporate: Optional[bool] = False
+    submitted_by: Optional[str] = None
+    approval_status: Optional[str] = "approved"  # "approved" | "pending_approval" | "rejected"

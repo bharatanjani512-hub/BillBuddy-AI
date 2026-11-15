@@ -21,6 +21,7 @@ export const fetchBills = async ({
   from_date = "",
   to_date = "",
   sort = "latest",
+  workspace_id = "",
 } = {}) => {
   const params = {
     page,
@@ -32,6 +33,7 @@ export const fetchBills = async ({
   if (category) params.category = category;
   if (payment_mode) params.payment_mode = payment_mode;
   if (status && status !== "all") params.status = status;
+  if (workspace_id) params.workspace_id = workspace_id;
 
   if (min_amount !== "") params.min_amount = min_amount;
   if (max_amount !== "") params.max_amount = max_amount;

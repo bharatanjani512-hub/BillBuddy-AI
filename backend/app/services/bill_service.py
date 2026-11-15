@@ -51,6 +51,18 @@ def create_bill_service(
     user_email: str
 ):
     bill_data["user_email"] = user_email
+    if not bill_data.get("submitted_by"):
+        bill_data["submitted_by"] = user_email
+
+    # If charged to corporate wallet, deduct balance
+    if bill_data.get("is_corporate") and bill_data.get("wallet_id"):
+        from app.services.wallet_service import deduct_wallet_expense
+        deduct_wallet_expense(
+            wallet_id=bill_data["wallet_id"],
+            amount=bill_data.get("amount", 0.0),
+            bill_title=bill_data.get("title", "Expense"),
+            user_email=user_email
+        )
 
     result = bills_collection.insert_one(bill_data)
 
@@ -87,10 +99,17 @@ def get_bills_service(
     from_date: str | None = None,
     to_date: str | None = None,
     sort: str = "latest",
+    workspace_id: str | None = None,
 ):
     query = {
         "user_email": user_email
     }
+
+    # -------------------------
+    # Workspace Filter
+    # -------------------------
+    if workspace_id and workspace_id != "all":
+        query["workspace_id"] = workspace_id
 
     # -------------------------
     # Status Filter

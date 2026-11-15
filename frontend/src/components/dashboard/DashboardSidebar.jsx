@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import WorkspaceSelector from "./WorkspaceSelector";
 
 const menuItems = [
   {
@@ -198,6 +199,11 @@ function DashboardSidebar() {
               </button>
             </div>
 
+            {/* Workspace & Folder Switcher */}
+            <div className="px-4 py-3 border-b border-[#E0E6DC]">
+              <WorkspaceSelector />
+            </div>
+
             {/* Links */}
             {renderNavLinks()}
 
@@ -229,6 +235,11 @@ function DashboardSidebar() {
               </p>
             </div>
           </div>
+        </div>
+
+        {/* Workspace & Folder Switcher */}
+        <div className="px-4 py-3.5 border-b border-[#E0E6DC]">
+          <WorkspaceSelector />
         </div>
 
         {/* Navigation */}
