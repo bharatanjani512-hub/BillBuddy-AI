@@ -15,14 +15,14 @@ const BillsHeader = ({ onAddBill, onScanBill, scanning = false }) => {
       <div className="flex flex-wrap items-center gap-3">
         {/* Scan with AI Button */}
         <label
-          className={`flex items-center justify-center gap-2 rounded-xl bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white shadow-xs transition cursor-pointer hover:bg-slate-800 active:scale-[0.99] ${
+          className={`flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#142013] to-[#253A22] px-5 py-2.5 text-sm font-semibold text-white shadow-xs transition cursor-pointer hover:from-[#0E170D] hover:to-[#1E2E1B] active:scale-[0.99] ${
             scanning ? "opacity-60 cursor-not-allowed" : ""
           }`}
         >
           {scanning ? (
-            <Sparkles size={16} className="animate-spin text-emerald-400" />
+            <Sparkles size={16} className="animate-spin text-lime-300" />
           ) : (
-            <Camera size={16} className="text-emerald-400" />
+            <Camera size={16} className="text-lime-300" />
           )}
           {scanning ? "Scanning Document..." : "Scan Document with AI"}
           <input
@@ -37,7 +37,7 @@ const BillsHeader = ({ onAddBill, onScanBill, scanning = false }) => {
         {/* Manual Add Button */}
         <button
           onClick={onAddBill}
-          className="flex items-center justify-center gap-2 rounded-xl bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white shadow-xs transition hover:bg-emerald-700 active:scale-[0.99]"
+          className="flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#1C2C1A] to-[#365314] hover:from-[#152213] hover:to-[#2B4210] px-5 py-2.5 text-sm font-semibold text-white shadow-xs transition active:scale-[0.99]"
         >
           <Plus size={16} />
           Add Bill

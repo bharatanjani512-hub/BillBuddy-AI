@@ -196,7 +196,7 @@ const Bills = () => {
   }, []);
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen bg-[#F8FAFC]">
+    <div className="flex flex-col md:flex-row min-h-screen bg-[#F4F6F2]">
       <DashboardSidebar />
 
       <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-10 min-w-0">

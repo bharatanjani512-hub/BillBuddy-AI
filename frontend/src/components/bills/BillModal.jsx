@@ -238,7 +238,7 @@ const BillModal = ({
             <button
               type="submit"
               disabled={loading}
-              className="rounded-xl bg-emerald-600 px-6 py-2.5 font-semibold text-white shadow-xs hover:bg-emerald-700 disabled:opacity-60 transition active:scale-[0.99]"
+              className="rounded-xl bg-gradient-to-r from-[#1C2C1A] to-[#365314] hover:from-[#152213] hover:to-[#2B4210] px-6 py-2.5 font-semibold text-white shadow-xs disabled:opacity-60 transition active:scale-[0.99]"
             >
               {loading
                 ? "Saving..."

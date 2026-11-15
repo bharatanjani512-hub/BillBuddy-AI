@@ -89,7 +89,7 @@ export default function Insights() {
   const level = confidence?.level;
 
   return (
-    <div className="flex flex-col md:flex-row min-h-screen bg-[#F8FAFC]">
+    <div className="flex flex-col md:flex-row min-h-screen bg-[#F4F6F2]">
       <DashboardSidebar />
       <main className="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-10 min-w-0">
 
@@ -97,21 +97,21 @@ export default function Insights() {
         <div className="flex items-center justify-between mb-8">
           <div>
             <div className="flex items-center gap-3 mb-1">
-              <div className="p-2.5 rounded-xl bg-slate-900 text-emerald-400 shadow-xs">
+              <div className="p-2.5 rounded-xl bg-gradient-to-br from-[#1A2A17] to-[#2E4828] text-lime-300 shadow-xs">
                 <Sparkles size={20} />
               </div>
-              <h1 className="text-3xl font-extrabold text-slate-900 tracking-tight">
+              <h1 className="text-3xl font-extrabold text-stone-900 tracking-tight">
                 Financial Insights
               </h1>
             </div>
-            <p className="text-sm text-slate-500 ml-12">
+            <p className="text-sm text-stone-500 ml-12">
               Automated analysis of your spending and budgeting patterns
             </p>
           </div>
           <button
             onClick={load}
             disabled={loading}
-            className="flex items-center gap-2 rounded-xl bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-slate-800 transition disabled:opacity-60 active:scale-[0.99]"
+            className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-[#1A2A17] to-[#2E4828] hover:from-[#132011] hover:to-[#22361E] px-5 py-2.5 text-sm font-semibold text-white shadow-xs transition disabled:opacity-60 active:scale-[0.99]"
           >
             <RefreshCw size={15} className={loading ? "animate-spin" : ""} />
             Refresh Insights
@@ -170,8 +170,8 @@ export default function Insights() {
 
             {/* AI Summary */}
             {ai?.summary && (
-              <div className="rounded-2xl bg-slate-900 p-8 shadow-xs text-white border border-slate-800">
-                <div className="flex items-center gap-2 mb-4 text-emerald-400">
+              <div className="rounded-2xl bg-gradient-to-br from-[#162414] to-[#2B4225] p-8 shadow-xs text-white border border-[#3E5C35]/40">
+                <div className="flex items-center gap-2 mb-4 text-lime-300">
                   <Sparkles size={16} />
                   <span className="text-xs font-semibold uppercase tracking-wider">AI Executive Summary</span>
                 </div>
