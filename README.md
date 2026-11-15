@@ -4,6 +4,9 @@ Personal and business bill management platform with automated receipt scanning, 
 
 ## Why BillBuddy?
 
+[🔗 Live Demo](https://bill-buddy-ai.vercel.app)  
+
+
 Managing day-to-day business and household bills (electricity, water, broadband, office rent, vendor invoices) gets messy quickly. It is easy to lose track of what has already been cleared, what is still pending, and which invoices are approaching their due date.
 
 I built BillBuddy AI to solve this:
